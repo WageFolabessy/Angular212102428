@@ -123,11 +123,7 @@ export class MahasiswaComponent implements OnInit, AfterViewInit {
       nim +
       '&nama=' +
       nama +
-      '&jenisKelamin=' +
-      jenisKelamin +
-      '&tempatLahir=' +
-      tempatLahir +
-      '&tanggalLahir=' +
+      
       tanggalLahir +
       '&jp=' +
       prodi +
