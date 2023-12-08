@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { MahasiswaComponent } from './mahasiswa/mahasiswa.component';
 import { otentikasiGuard } from './otentikasi.guard';
+import { ForexComponent } from './forex/forex.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -32,6 +33,11 @@ const routes: Routes = [
   {
     path: 'mahasiswa',
     component: MahasiswaComponent,
+    canActivate: [otentikasiGuard],
+  },
+  {
+    path: 'forex',
+    component: ForexComponent,
     canActivate: [otentikasiGuard],
   },
 ];
