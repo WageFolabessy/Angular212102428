@@ -1,0 +1,109 @@
+import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+declare const $: any;
+declare const moment: any;
+
+@Component({
+  selector: 'app-cuaca',
+  templateUrl: './cuaca.component.html',
+  styleUrl: './cuaca.component.css',
+})
+export class CuacaComponent implements OnInit, AfterViewInit {
+  private table1: any;
+
+  constructor(private renderer: Renderer2, private http: HttpClient) {}
+
+  ngAfterViewInit(): void {
+    this.renderer.removeClass(document.body, 'sidebar-open');
+    this.renderer.addClass(document.body, 'sidebar-close');
+
+    this.table1 = $('#table1').DataTable({
+      columnDefs: [
+        {
+          targets: [0, 1, 2, 3, 4],
+          className: 'text-center',
+        },
+        {
+          targets: 1,
+          render: function (data: string) {
+            let waktu = moment(data + ' UTC');
+            console.log(waktu);
+
+            let html =
+              waktu.local().format('YYYY-MM-DD') +
+              '<br />' +
+              waktu.local().format('HH:mm') +
+              ' WIB';
+            return html;
+          },
+        },
+        {
+          targets: 2,
+          render: function (data: string) {
+            let html = "<img src='" + data + "' />";
+            return html;
+          },
+        },
+        {
+          targets: 3,
+          render: function (data: string) {
+            let array = data.split('||');
+            let cuaca = array[0];
+            let deskripsi = array[1];
+            let html = '<strong>' + cuaca + '</strong><br />' + deskripsi;
+            return html;
+          },
+        },
+      ],
+    });
+
+    this.bind_table1();
+  }
+
+  bind_table1(): void {
+    let url =
+      'https://api.openweathermap.org/data/2.5/forecast?id=1630789&appid=a102c064f03c4cf828e3dbd554530802';
+    this.http.get(url).subscribe((data: any) => {
+      console.log(data);
+
+      let list = data.list;
+      console.log(list);
+
+      this.table1.clear();
+      let counter = 1;
+      list.forEach((element: any) => {
+        let weather = element.weather[0];
+        console.log(weather);
+
+        let iconUrl =
+          'https://openweathermap.org/img/wn/' + weather.icon + '@2x.png';
+        let cuacaDeskripsi = weather.main + '||' + weather.description;
+
+        let main = element.main;
+        console.log(main);
+
+        let tempMin = this.kelvinToCelcius(main.temp_min);
+        console.log('temptMin: ' + tempMin);
+        let temptMax = this.kelvinToCelcius(main.temp_max);
+        console.log('temptMax: ' + temptMax);
+
+        let temp = tempMin + '°C - ' + temptMax + '°C';
+
+        let row = [counter, element.dt_txt, iconUrl, cuacaDeskripsi, temp];
+
+        this.table1.row.add(row);
+
+        counter++;
+      });
+      this.table1.draw(false);
+    });
+  }
+
+  kelvinToCelcius(kelvin: any): any {
+    let celcius = kelvin - 237.15;
+    celcius = Math.round(celcius * 100) / 100;
+    return celcius;
+  }
+  ngOnInit(): void {}
+}

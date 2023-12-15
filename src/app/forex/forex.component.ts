@@ -21,8 +21,8 @@ export class ForexComponent implements OnInit, AfterViewInit {
     this._table1 = $('#table1').DataTable({
       columnDefs: [
         {
-          targets: 2,
-          className: 'text-right',
+          targets: [0, 1, 2, 3],
+          className: 'text-center',
         },
       ],
     });
@@ -41,16 +41,16 @@ export class ForexComponent implements OnInit, AfterViewInit {
       console.log(data);
 
       const kepanjangan = {
-        'USD': 'US Dollar',
-        'SGD': 'Singapore Dollar',
-        'BND': 'Brunei Dollar',
-        'HKD': 'Hong Kong Dollar',
-        'BTC': 'Bitcoin',
-        'JPY': 'Japanese Yen',
-        'EUR': 'Euro',
-        'AUD': 'Australian Dollar',
-        'CAD': 'Canadian Dollar',
-        'GBP': 'British Pound Sterling',
+        USD: 'US Dollar',
+        SGD: 'Singapore Dollar',
+        BND: 'Brunei Dollar',
+        HKD: 'Hong Kong Dollar',
+        BTC: 'Bitcoin',
+        JPY: 'Japanese Yen',
+        EUR: 'Euro',
+        AUD: 'Australian Dollar',
+        CAD: 'Canadian Dollar',
+        GBP: 'British Pound Sterling',
       };
 
       let rates = data.rates;
