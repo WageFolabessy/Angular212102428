@@ -12,6 +12,9 @@ declare const moment: any;
 export class CuacaComponent implements OnInit, AfterViewInit {
   private table1: any;
 
+  public waktuSunset: any;
+  public waktuSunrise: any;
+
   constructor(private renderer: Renderer2, private http: HttpClient) {}
 
   ngAfterViewInit(): void {
@@ -65,6 +68,24 @@ export class CuacaComponent implements OnInit, AfterViewInit {
       'https://api.openweathermap.org/data/2.5/forecast?id=1630789&appid=a102c064f03c4cf828e3dbd554530802';
     this.http.get(url).subscribe((data: any) => {
       let list = data.list;
+
+      let sunrise = data.city.sunrise;
+
+      let tanggal = sunrise / 86400;
+      let sisa_detik = sunrise / 86400;
+      let jam = Math.floor(sisa_detik / 3600);
+      sisa_detik = sisa_detik % 3600;
+      let menit = Math.floor(sisa_detik / 60);
+      let detik = Math.floor(sisa_detik % 60);
+      this.waktuSunrise = jam + ':' + menit + ':' + detik;
+
+      let sunset = data.city.sunset;
+      sisa_detik = Math.floor(sunset / 86400);
+      jam = Math.floor(sisa_detik / 3600) + 12;
+      sisa_detik = Math.floor(sisa_detik % 3600);
+      menit = Math.floor(sisa_detik / 60);
+      detik = Math.floor(sisa_detik % 60);
+      this.waktuSunset = jam + ':' + menit + ':' + detik;
 
       this.table1.clear();
       let counter = 1;
