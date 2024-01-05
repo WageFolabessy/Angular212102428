@@ -28,7 +28,6 @@ export class CuacaComponent implements OnInit, AfterViewInit {
           targets: 1,
           render: function (data: string) {
             let waktu = moment(data + ' UTC');
-            console.log(waktu);
 
             let html =
               waktu.local().format('YYYY-MM-DD') +
@@ -65,28 +64,21 @@ export class CuacaComponent implements OnInit, AfterViewInit {
     let url =
       'https://api.openweathermap.org/data/2.5/forecast?id=1630789&appid=a102c064f03c4cf828e3dbd554530802';
     this.http.get(url).subscribe((data: any) => {
-      console.log(data);
-
       let list = data.list;
-      console.log(list);
 
       this.table1.clear();
       let counter = 1;
       list.forEach((element: any) => {
         let weather = element.weather[0];
-        console.log(weather);
 
         let iconUrl =
           'https://openweathermap.org/img/wn/' + weather.icon + '@2x.png';
         let cuacaDeskripsi = weather.main + '||' + weather.description;
 
         let main = element.main;
-        console.log(main);
 
         let tempMin = this.kelvinToCelcius(main.temp_min);
-        console.log('temptMin: ' + tempMin);
         let temptMax = this.kelvinToCelcius(main.temp_max);
-        console.log('temptMax: ' + temptMax);
 
         let temp = tempMin + '°C - ' + temptMax + '°C';
 
