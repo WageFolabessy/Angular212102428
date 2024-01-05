@@ -27,7 +27,6 @@ export class MahasiswaComponent implements OnInit, AfterViewInit {
     this.http
       .get('https://stmikpontianak.net/011100862/tampilMahasiswa.php')
       .subscribe((data: any) => {
-        console.log(data);
 
         this.table1.clear();
 
@@ -135,7 +134,6 @@ export class MahasiswaComponent implements OnInit, AfterViewInit {
       tahunMasuk;
 
     this.http.get(url).subscribe((data: any) => {
-      console.log(data);
       alert(data.status + ' -->' + data.message);
 
       this.bind_mahasiswa();
